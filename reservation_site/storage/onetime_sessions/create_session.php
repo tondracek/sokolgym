@@ -49,7 +49,7 @@ array_push($sessions_array, $new_session);
 file_put_contents("../storage/sessions.json", json_encode($sessions_array));
 
 if (headers_sent()) {
-  die('<script>window.location.href = "../index.php";</script>');
+  die('<script>window.location.href = "../../index.php";</script>');
 } else {
   header("Location: ../index.php");
   die();
@@ -100,5 +100,5 @@ function test_inputs() {
 
 function error_msg($msg) {
   die("<script type='text/javascript'>alert('$msg');
-  window.location = '../index.php'</script>");
+  window.location = '../../index.php'</script>");
 }

@@ -38,19 +38,19 @@ die("<script type='text/javascript'>alert('$msg');
 window.location = '../index.php'</script>");
 
 function verify_code() {
-  $codes = json_decode(file_get_contents("one_time_codes.json", true));
+  $codes = json_decode(file_get_contents("registration_codes.json", true));
   print_r($codes);
   $new_codes = array();
   foreach ($codes as $code) {
     print_r($code);
     if ($_POST["code"] == $code) {
-      file_put_contents("one_time_codes.json", json_encode($new_codes));
+      file_put_contents("registration_codes.json", json_encode($new_codes));
       return true;
     } else {
       array_push($new_codes, $code);
     }
   }
-  file_put_contents("one_time_codes.json", json_encode($new_codes));
+  file_put_contents("registration_codes.json", json_encode($new_codes));
   return false;
 }
 ?>

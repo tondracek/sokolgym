@@ -69,7 +69,7 @@
 
     <!-- POPUP CREATE SESSION -->
     <div id="session_create_popup" class="popup">
-        <form action="storage/create_session.php" method="post">
+        <form action="storage/onetime_sessions/create_session.php" method="post">
             <div>
                 <p1>Den</p1>
                 <input type="date" name="day" autocomplete="off">
