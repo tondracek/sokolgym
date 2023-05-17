@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 test_inputs();
 
 $sessions = OnetimeSession::load_onetime_sessions_array("reservation_site/storage/onetime_sessions/sessions.json");
@@ -24,9 +28,9 @@ if (headers_sent()) {
     die();
 }
 
-function check_user($your_email, $your_pass)
+function check_user($your_email, $your_pass): bool
 {
-    $users = json_decode(file_get_contents("users.json"), true);
+    $users = json_decode(file_get_contents("../users.json"), true);
 
     foreach ($users as $user) {
         if ($user["email"] == $your_email) {
@@ -38,7 +42,7 @@ function check_user($your_email, $your_pass)
     return false;
 }
 
-function is_overlapping_with_existing(Session $new_session, array $sessions)
+function is_overlapping_with_existing(Session $new_session, array $sessions): void
 {
     foreach ($sessions as $session) {
         if ($new_session->is_overlapping($session)) {
@@ -52,7 +56,7 @@ function is_overlapping_with_existing(Session $new_session, array $sessions)
     }
 }
 
-function test_inputs()
+function test_inputs(): void
 {
     if ($_POST["day"] == "") {
         error_msg("Den není vyplněn");
@@ -83,7 +87,7 @@ function test_inputs()
     }
 }
 
-function error_msg($msg)
+function error_msg($msg): void
 {
     die("
         <script type='text/javascript'>alert('$msg'); 
