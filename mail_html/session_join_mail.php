@@ -26,7 +26,7 @@ if ($_POST["email"] == "") {
 
 session_start();
 
-if ($_SESSION["regular"]) {
+if ($_SESSION["regular"] == "true") {
     $filename = "../reservation_site/storage/regular_sessions/regular_sessions.json";
     $sessions = RegularSessions::load_regular_sessions_array($filename);
 } else {
@@ -35,7 +35,7 @@ if ($_SESSION["regular"]) {
 }
 
 foreach ($sessions as $session) {
-    if ($session instanceof Session && $session->getID() == $_POST["id"]) {
+    if ($session instanceof Session && $session->getID() == $_SESSION["id"]) {
         $_SESSION["day"] = $session->getDay();
         $_SESSION["start"] = $session->getStart();
         $_SESSION["end"] = $session->getEnd();
@@ -43,8 +43,7 @@ foreach ($sessions as $session) {
     break;
 }
 
-
-$address = $_SERVER['HTTP_HOST'];
+$address = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../..";
 
 $email = new PHPMailer\PHPMailer\PHPMailer();
 
@@ -60,7 +59,7 @@ $email->Subject = "Potvrzení rezervace v SokolGym - $time";
 $email->CharSet = 'UTF-8';
 $email->isHTML(true);
 
-if ($_SESSION["regular"]) {
+if ($_SESSION["regular"] == "true") {
     $email->Body = regular_body($address);
 } else {
     $email->Body = onetime_body($address);
@@ -71,7 +70,7 @@ if (!$email->Send()) {
 } else {
     $msg = "Potvrďte přihlášení na vašem emailu";
 }
-die();
+
 die("<script type='text/javascript'>alert('$msg');
 window.location = '../reservation_site/index.php'</script>");
 
@@ -99,7 +98,7 @@ function regular_body($address)
       <body>
         <div style='text-align: center;'>
           <h1>Prosím, potvrďte své přihlášení</h1>
-          <a href='$address'/reservation_site/storage/join_regular_session.php?id={$_SESSION['id']}&name={$_POST['name']}'>Potvrdit</a>
+          <a href='http://$address/reservation_site/storage/regular_sessions/join_regular_session.php?id={$_SESSION['id']}&name={$_POST['name']}'>Potvrdit kliknutím</a>
           <h1>Zvolili jste dnešní pravidelný termín</h1>
           <p>{$_SESSION['start']} - {$_SESSION['end']}</p>
           <p>{$_POST['name']}</p>
@@ -133,7 +132,8 @@ function onetime_body($address)
       <body>
         <div style='text-align: center;'>
           <h1>Prosím, potvrďte své přihlášení</h1>
-          <a href='$address''/reservation_site/storage/join_session.php?day={$_SESSION['day']}&start={$_SESSION['start']}&end={$_SESSION['end']}&name={$_POST['name']}'>Potvrdit</a>
+          <p>$address</p>
+          <a href='http://$address/reservation_site/storage/onetime_sessions/join_session.php?day={$_SESSION['day']}&start={$_SESSION['start']}&end={$_SESSION['end']}&name={$_POST['name']}'>Potvrdit kliknutím</a>
           <h1>Zvolili jste termín</h1>
           <p>{$_SESSION['day']}</p>
           <p>{$_SESSION['start']} - {$_SESSION['end']}</p>

@@ -17,7 +17,7 @@ abstract class Session implements JsonSerializable
         $this->attendants = $attendants;
     }
 
-    public static function load_sessions_array($filename, callable $loading_function) {
+    protected static function load_sessions_array($filename, callable $loading_function) {
         $file_as_json = file_get_contents($filename);
         $sessions_json_array = json_decode($file_as_json, true);
 

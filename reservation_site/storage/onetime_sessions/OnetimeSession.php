@@ -19,7 +19,7 @@ class OnetimeSession extends Session
         $this->creator = $creator;
     }
 
-    public static function load_session($json)
+    private static function load_session($json)
     {
         $attendants = [];
         foreach ($json["attendants"] as $name) {
@@ -39,7 +39,7 @@ class OnetimeSession extends Session
 
     public static function load_onetime_sessions_array($filename)
     {
-        return parent::load_sessions_array($filename, '\RegularSessions::load_session');
+        return parent::load_sessions_array($filename, '\OnetimeSession::load_session');
     }
 
     public function is_overlapping(OnetimeSession $session)
