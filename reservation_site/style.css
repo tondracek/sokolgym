@@ -1,0 +1,147 @@
+@import url(../style.css);
+
+div#msg_box {
+    background: #000000aa;
+    max-width: 200px;
+    font-size: 20px;
+    padding: 15px;
+    position: fixed;
+    z-index: 1;
+    bottom: 20px;
+    right: 20px;
+    display: inline-block;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+
+    animation: show_widget 350ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show_widget {
+    0% {
+        transform: translate(calc(100% + 23px), 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+div.sessions {
+    margin: 5% 0%;
+    padding: 30px 5%;
+    background-color: #151718;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+
+div.session {
+    min-width: 200px;
+    margin: 0 20px;
+    background-color: #111314;
+    border: 2px solid white;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+div.session_content {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+}
+
+div.session p1 {
+    font-weight: bold;
+}
+
+div.session p2 {
+    max-width: 26ch;
+    padding: 10px;
+    font-size: 16px;
+    overflow-x: scroll;
+}
+
+div.session button {
+    margin: 5px auto;
+}
+
+div#create_session {
+    display: flex;
+    margin: 5%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div#create_session button {
+    margin: 2px auto;
+    padding: 10px;
+}
+
+div#create_session p {
+    margin: 0 auto;
+    font-size: 11px;
+}
+
+.blur>*:not(.popup) {
+    pointer-events: none;
+
+    animation: animate_blur 250ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animate_blur {
+    from {
+        filter: blur(0px);
+    }
+
+    to {
+        filter: blur(10px);
+    }
+}
+
+div.popup {
+    display: none;
+    z-index: 1;
+
+    min-width: 200px;
+    background-color: #151718;
+    border: 2px solid white;
+    padding: 20px;
+    border-radius: 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: animate_popup 250ms;
+}
+
+@keyframes animate_popup {
+    from {
+        top: 150%;
+    }
+
+    to {
+        top: 50%;
+    }
+}
+
+div.popup div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.popup p1 {
+    /* white-space: nowrap; */
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    div.popup {
+        width: 85%;
+    }
+}
