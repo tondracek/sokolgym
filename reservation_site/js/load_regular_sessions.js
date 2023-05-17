@@ -33,7 +33,7 @@ function loadRegularSessions(div, sessions) {
                     <p2>${session["attendants"].length}/${session["max_capacity"]}</p2>
                     <p1>Účastníci</p1>
                     <p2 class="attendants">${"• " + session["attendants"]}</p2>
-                    <button class="regular_sessions_button" onclick="choose_regular_session(${session["id"]})">Zarezervovat</button>
+                    <button class="regular_sessions_button" onclick="choose_session(${session["id"]}, true)">Zarezervovat</button>
                 </div>
             </div>
         `;
@@ -42,10 +42,6 @@ function loadRegularSessions(div, sessions) {
 
         let today = (new Date().getDay() + 6) % 7;
         let button = session_div.getElementsByClassName("regular_sessions_button")[0];
-        if (today in session["days"]) {
-            button.disabled = false;
-        } else {
-            button.disabled = true;
-        }
+        button.disabled = !(today in session["days"]);
     }
 }

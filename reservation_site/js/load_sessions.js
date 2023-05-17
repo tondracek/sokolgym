@@ -43,7 +43,7 @@ function loadSessions(json_data) {
                     <p2>${session["attendants"].length}/${session["max_capacity"]}</p2>
                     <p1>Účastníci</p1>
                     <marquee float="left" direction="left"> ${session["attendants"]}</marquee>
-                    <button onclick="choose_session('${session["day"]}', '${session["start"]}', '${session["end"]}', ${session["attendants"].length}, ${session["max_capacity"]});">Zarezervovat</button>
+                    <button onclick="choose_session('${session["id"]}', false);">Zarezervovat</button>
                 </div>
             </div>
         `;

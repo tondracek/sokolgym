@@ -1,23 +1,11 @@
-function choose_session(day, start, end, current, max) {
-    if (current < max) {
-        open_popup(document.getElementById('session_join_popup'));
-        data = { "day": day, "start": start, "end": end, "id": 0, "regular": false};
-        $.ajax({
-            type: "POST",
-            url: "storage/choose_session.php",
-            data: data
-        });
-    } else {
-        alert("Termín je již zaplněn");
-    }
-}
+function choose_session(id, regular) {
+    let file = (regular) ? "storage/regular_sessions/regular_sessions.json" : "storage/onetime_sessions/sessions.json";
 
-function choose_regular_session(id) {
-    $.getJSON("storage/regular_sessions.json", function (json) {
+    $.getJSON(file, function (json) {
         let session = json[id];
         if (session["attendants"].length < session["max_capacity"]) {
             open_popup(document.getElementById('session_join_popup'));
-            data = { "day": "", "start": session["start"], "end": session["end"], "id": id, "regular": true};
+            let data = {"id": id, "regular": regular};
             $.ajax({
                 type: "POST",
                 url: "storage/choose_session.php",

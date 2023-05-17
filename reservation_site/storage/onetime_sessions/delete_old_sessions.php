@@ -1,15 +1,12 @@
 <?php
-require_once "Session.php";
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once "../Session.php";
 
 $filename = "sessions.json";
 $sessions = Session::load_sessions_array($filename);
 
 for ($i = 0; $i < count($sessions); $i++) {
-    if ($sessions[$i] < date("Y-m-d")) {
+    echo $sessions[$i]->getDay() < date("Y-m-d");
+    if ($sessions[$i] instanceof Session && $sessions[$i]->getDay() < date("Y-m-d")) {
         unset($sessions[$i]);
     }
 }

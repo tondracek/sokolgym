@@ -9,7 +9,7 @@ for ($i = 0; $i < count($sessions); $i++) {
             die("<script type='text/javascript'>alert('$msg');
             window.location = '../../index.php'</script>");
         } else {
-            array_push($sessions[$i]["attendants"], $_GET["name"]);
+            $sessions[$i]["attendants"][] = $_GET["name"];
         }
     }
 }

@@ -1,25 +1,21 @@
 <?php
 
-class Session
+class OnetimeSession extends Session
 {
-    private $id;
     private $day;
-    private $start;
-    private $end;
     private $trainer;
-    private $max_capacity;
-    private $attendants;
     private $creator;
 
+    /**
+     * @param $day
+     * @param $trainer
+     * @param $creator
+     */
     public function __construct($id, $day, $start, $end, $trainer, $max_capacity, $attendants, $creator)
     {
-        $this->id = $id;
+        parent::__construct($id, $start, $end, $max_capacity, $attendants);
         $this->day = $day;
-        $this->start = $start;
-        $this->end = $end;
         $this->trainer = $trainer;
-        $this->max_capacity = $max_capacity;
-        $this->attendants = $attendants;
         $this->creator = $creator;
     }
 
@@ -29,7 +25,7 @@ class Session
         foreach ($json["attendants"] as $name) {
             $attendants[] = $name;
         }
-        return new Session(
+        return new OnetimeSession(
             $json["id"],
             $json["day"],
             $json["start"],
@@ -41,27 +37,12 @@ class Session
         );
     }
 
-    public static function load_sessions_array($filename)
+    public static function load_onetime_sessions_array($filename)
     {
-        $file_as_json = file_get_contents($filename);
-        $sessions_json_array = json_decode($file_as_json, true);
-
-        $sessions = [];
-
-        foreach ($sessions_json_array as $session_json) {
-            $new_session = self::load_session($session_json);
-            $sessions[] = $new_session;
-        }
-
-        return $sessions;
+        return parent::load_sessions_array($filename, '\RegularSessions::load_session');
     }
 
-    public function add_attendant($name)
-    {
-        $this->attendants[] = $name;
-    }
-
-    public function is_overlapping(Session $session)
+    public function is_overlapping(OnetimeSession $session)
     {
         if ($this->day == $session->day) {
             if ($this->start < $session->end && $this->end > $session->start) {
@@ -71,8 +52,27 @@ class Session
         return false;
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'day' => $this->day,
+            'start' => $this->start,
+            'end' => $this->end,
+            'trainer' => $this->trainer,
+            'max_capacity' => $this->max_capacity,
+            'attendants' => $this->attendants,
+            'creator' => $this->creator,
+        ];
+    }
+
     public function getDay()
     {
         return $this->day;
+    }
+
+    public function get_day_in_week()
+    {
+        return date('N', strtotime($this->day)) - 1;
     }
 }
