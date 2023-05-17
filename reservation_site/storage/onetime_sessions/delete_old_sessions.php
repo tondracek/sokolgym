@@ -1,42 +1,17 @@
 <?php
-update_sessions();
-update_regular_sessions();
-// die();
+require_once "Session.php";
 
-function update_sessions()
-{
-    $sessions_loaded = file_get_contents("../storage/sessions.json");
-    $json_dict = json_decode($sessions_loaded, true);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-    $sessions_array = array();
+$filename = "sessions.json";
+$sessions = Session::load_sessions_array($filename);
 
-    foreach ($json_dict as $session) {
-        array_push($sessions_array, $session);
+for ($i = 0; $i < count($sessions); $i++) {
+    if ($sessions[$i] < date("Y-m-d")) {
+        unset($sessions[$i]);
     }
-
-    for ($i = 0; $i < count($sessions_array); $i++) {
-        if ($sessions_array[$i]["day"] < date("Y-m-d")) {
-            unset($sessions_array[$i]);
-        }
-    }
-
-    file_put_contents("../storage/sessions.json", json_encode($sessions_array));
 }
 
-function update_regular_sessions()
-{
-    $json = file_get_contents("../storage/regular_sessions.json");
-    $sessions = json_decode($json, true);
-
-    for ($i = 0; $i < count($sessions); $i++) {
-        $sessions[$i]["attendants"] = array_unique($sessions[$i]["attendants"]);
-
-        $today = date("y-m-d");
-        if ($today > $sessions[$i]["last_updated"]) {
-            $sessions[$i]["attendants"] = [];
-            $sessions[$i]["last_updated"] = $today;
-        }
-    }
-
-    file_put_contents("../storage/regular_sessions.json", json_encode($sessions));
-}
+file_put_contents($filename, json_encode($sessions));

@@ -1,7 +1,13 @@
 function appendRegularSessions(div, time) {
-    $.getJSON("storage/regular_sessions.json?t=" + time, function (json) {
-        loadRegularSessions(div, json);
-    });
+    $.ajax({
+        type: "POST",
+        url: "storage/regular_sessions/update_regular_sessions.php",
+        complete: function () {
+            $.getJSON("storage/regular_sessions/regular_sessions.json?t=" + time, function (json) {
+                loadRegularSessions(div, json);
+            });
+        }
+    })
 }
 
 function loadRegularSessions(div, sessions) {
@@ -34,7 +40,7 @@ function loadRegularSessions(div, sessions) {
 
         div.appendChild(session_div);
 
-        let today = (new Date().getDay() + 6)%7;
+        let today = (new Date().getDay() + 6) % 7;
         let button = session_div.getElementsByClassName("regular_sessions_button")[0];
         if (today in session["days"]) {
             button.disabled = false;

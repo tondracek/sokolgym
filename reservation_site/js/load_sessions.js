@@ -3,9 +3,9 @@ var ret = "";
 function appendSessions() {
     $.ajax({
         type: "POST",
-        url: "storage/delete_old_sessions.php",
+        url: "storage/onetime_sessions/delete_old_sessions.php",
         complete: function () {
-            $.getJSON("storage/sessions.json", function (data) {
+            $.getJSON("storage/onetime_sessions/sessions.json", function (data) {
                 ret = loadSessions(data);
             });
         }
@@ -16,9 +16,9 @@ function appendSessions() {
 function loadSessions(json_data) {
     let ret = document.createElement("div");
 
-    var data = [];
+    let data = [];
 
-    for (var i in json_data) {
+    for (let i in json_data) {
         data.push(json_data[i]);
     }
 
