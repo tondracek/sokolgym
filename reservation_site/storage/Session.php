@@ -2,11 +2,11 @@
 
 abstract class Session implements JsonSerializable
 {
-    protected $id;
-    protected $start;
-    protected $end;
-    protected $max_capacity;
-    protected $attendants;
+    protected int $id;
+    protected string $start;
+    protected string $end;
+    protected int $max_capacity;
+    protected array $attendants;
 
     public function __construct($id, $start, $end, $max_capacity, $attendants)
     {
@@ -17,7 +17,8 @@ abstract class Session implements JsonSerializable
         $this->attendants = $attendants;
     }
 
-    protected static function load_sessions_array($filename, callable $loading_function) {
+    protected static function load_sessions_array($filename, callable $loading_function): array
+    {
         $file_as_json = file_get_contents($filename);
         $sessions_json_array = json_decode($file_as_json, true);
 
@@ -31,23 +32,28 @@ abstract class Session implements JsonSerializable
         return $sessions;
     }
 
+    public function is_full(): bool
+    {
+        echo $this->max_capacity > count($this->attendants);
+        return $this->max_capacity <= count($this->attendants);
+    }
 
-    public function add_attendant($name)
+    public function add_attendant($name): void
     {
         $this->attendants[] = $name;
     }
 
-    public function getStart()
+    public function getStart(): string
     {
         return $this->start;
     }
 
-    public function getEnd()
+    public function getEnd(): string
     {
         return $this->end;
     }
 
-    public function getID()
+    public function getID(): int
     {
         return $this->id;
     }

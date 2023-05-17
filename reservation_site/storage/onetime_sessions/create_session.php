@@ -2,9 +2,9 @@
 
 test_inputs();
 
-$sessions = Session::load_sessions_array("reservation_site/storage/onetime_sessions/sessions.json");
+$sessions = OnetimeSession::load_onetime_sessions_array("reservation_site/storage/onetime_sessions/sessions.json");
 
-$new_session = Session::load_session($_POST);
+$new_session = OnetimeSession::load_session($_POST);
 
 is_overlapping_with_existing($new_session, $sessions);
 
@@ -20,7 +20,7 @@ file_put_contents("../storage/sessions.json", json_encode($sessions));
 if (headers_sent()) {
     die('<script>window.location.href = "../../index.php";</script>');
 } else {
-    header("Location: ../index.php");
+    header("Location: ../../index.php");
     die();
 }
 

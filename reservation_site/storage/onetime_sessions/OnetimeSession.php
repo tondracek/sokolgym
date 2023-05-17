@@ -1,16 +1,13 @@
 <?php
 
+require_once "../Session.php";
+
 class OnetimeSession extends Session
 {
     private $day;
     private $trainer;
     private $creator;
 
-    /**
-     * @param $day
-     * @param $trainer
-     * @param $creator
-     */
     public function __construct($id, $day, $start, $end, $trainer, $max_capacity, $attendants, $creator)
     {
         parent::__construct($id, $start, $end, $max_capacity, $attendants);
@@ -19,7 +16,7 @@ class OnetimeSession extends Session
         $this->creator = $creator;
     }
 
-    private static function load_session($json)
+    public static function load_session($json): OnetimeSession
     {
         $attendants = [];
         foreach ($json["attendants"] as $name) {
@@ -37,12 +34,12 @@ class OnetimeSession extends Session
         );
     }
 
-    public static function load_onetime_sessions_array($filename)
+    public static function load_onetime_sessions_array($filename): array
     {
         return parent::load_sessions_array($filename, '\OnetimeSession::load_session');
     }
 
-    public function is_overlapping(OnetimeSession $session)
+    public function is_overlapping(OnetimeSession $session): bool
     {
         if ($this->day == $session->day) {
             if ($this->start < $session->end && $this->end > $session->start) {
@@ -52,7 +49,7 @@ class OnetimeSession extends Session
         return false;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
@@ -71,7 +68,7 @@ class OnetimeSession extends Session
         return $this->day;
     }
 
-    public function get_day_in_week()
+    public function get_day_in_week(): int
     {
         return date('N', strtotime($this->day)) - 1;
     }

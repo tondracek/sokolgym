@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
@@ -6,11 +11,6 @@ require 'PHPMailer/src/SMTP.php';
 require_once "../reservation_site/storage/Session.php";
 require_once "../reservation_site/storage/onetime_sessions/OnetimeSession.php";
 require_once "../reservation_site/storage/regular_sessions/RegularSessions.php";
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 
 if ($_POST["name"] == "") {
     $msg = "Vyplňte jméno";
@@ -74,7 +74,7 @@ if (!$email->Send()) {
 die("<script type='text/javascript'>alert('$msg');
 window.location = '../reservation_site/index.php'</script>");
 
-function regular_body($address)
+function regular_body($address): string
 {
     return "
     <html>
@@ -87,11 +87,11 @@ function regular_body($address)
           color: #ffffff;
           font-family: monospace;
           font-size: 18px;
-          margin: 0px;
+          margin: 0;
           overflow-anchor: none;
           width: 100%;
           overflow: overlay;
-          padding: 20px 0%;
+          padding: 20px 0;
         }
         </style>
       </head>
@@ -108,7 +108,7 @@ function regular_body($address)
     ";
 }
 
-function onetime_body($address)
+function onetime_body($address): string
 {
     return "
     <html>
@@ -121,11 +121,11 @@ function onetime_body($address)
           color: #ffffff;
           font-family: monospace;
           font-size: 18px;
-          margin: 0px;
+          margin: 0;
           overflow-anchor: none;
           width: 100%;
           overflow: overlay;
-          padding: 20px 0%;
+          padding: 20px 0;
         }
         </style>
       </head>
@@ -133,7 +133,7 @@ function onetime_body($address)
         <div style='text-align: center;'>
           <h1>Prosím, potvrďte své přihlášení</h1>
           <p>$address</p>
-          <a href='http://$address/reservation_site/storage/onetime_sessions/join_session.php?day={$_SESSION['day']}&start={$_SESSION['start']}&end={$_SESSION['end']}&name={$_POST['name']}'>Potvrdit kliknutím</a>
+          <a href='http://$address/reservation_site/storage/onetime_sessions/join_session.php?id={$_SESSION['id']}&name={$_POST['name']}'>Potvrdit kliknutím</a>
           <h1>Zvolili jste termín</h1>
           <p>{$_SESSION['day']}</p>
           <p>{$_SESSION['start']} - {$_SESSION['end']}</p>

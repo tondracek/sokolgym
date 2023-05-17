@@ -2,8 +2,8 @@
 
 class RegularSessions extends Session
 {
-    private $days;
-    private $last_updated;
+    private array $days;
+    private string $last_updated;
 
     public function __construct($id, $days, $start, $end, $max_capacity, $attendants, $last_updated)
     {
@@ -12,7 +12,7 @@ class RegularSessions extends Session
         $this->last_updated = $last_updated;
     }
 
-    private static function load_session($json)
+    private static function load_session($json): RegularSessions
     {
         $attendants = [];
         foreach ($json["attendants"] as $name) {
@@ -29,12 +29,12 @@ class RegularSessions extends Session
         );
     }
 
-    public static function load_regular_sessions_array($filename)
+    public static function load_regular_sessions_array($filename): array
     {
         return parent::load_sessions_array($filename, '\RegularSessions::load_session');
     }
 
-    public function is_overlapping(OnetimeSession $session)
+    public function is_overlapping(OnetimeSession $session): bool
     {
         if (in_array($session->get_day_in_week(), $this->days)) {
             if ($this->start < $session->end && $this->end > $session->start) {
@@ -44,14 +44,14 @@ class RegularSessions extends Session
         return false;
     }
 
-    public function getDay()
+    public function getDay(): string
     {
         $days_in_week = [" Po", " Út", " St", " Čt", " Pá", " So", " Ne"];
 
         return $days_in_week[date("N") - 1];
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
