@@ -10,4 +10,4 @@ Kliknutím na odkaz v emailu se odešle požadavek na zapsání jména k danému
 Databáze - projekt aktuálně funguje pouze s JSON databází, bude nahrazena SQL serverem.
 
 ...
-[Ukázka bez funkčního php](tondracek.github.io/sokolgym)
+[Ukázka bez funkčního php](https://tondracek.github.io/sokolgym)
