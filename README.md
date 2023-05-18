@@ -1,5 +1,4 @@
 # sokolgym
-
 Projekt rezervačního systému pro menší posilovnu.
 
 # Princip kódu
@@ -8,5 +7,4 @@ Po otevření dialogového okna a stisknutí "Příhlásit se" se spustí skript
 Kliknutím na odkaz v emailu se odešle požadavek na zapsání jména k danému termínu pokud je termín volný.
 
 # Úpravy
-Projekt není kompletní.
 Databáze - projekt aktuálně funguje pouze s JSON databází, bude nahrazena SQL serverem.
