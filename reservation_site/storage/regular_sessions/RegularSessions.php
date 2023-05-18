@@ -12,9 +12,10 @@ class RegularSessions extends Session
         $this->last_updated = $last_updated;
     }
 
-    private static function load_session($json): RegularSessions
+    public static function load_session($json): RegularSessions
     {
         $attendants = [];
+
         foreach ($json["attendants"] as $name) {
             $attendants[] = $name;
         }
@@ -55,12 +56,12 @@ class RegularSessions extends Session
     {
         return [
             'id' => $this->id,
-            'day' => $this->days,
+            'days' => $this->days,
             'start' => $this->start,
             'end' => $this->end,
             'max_capacity' => $this->max_capacity,
             'attendants' => $this->attendants,
-            'creator' => $this->last_updated,
+            'last_updated' => $this->last_updated,
         ];
     }
 }

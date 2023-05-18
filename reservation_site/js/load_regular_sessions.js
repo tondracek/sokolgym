@@ -12,7 +12,7 @@ function appendRegularSessions(div, time) {
 
 function loadRegularSessions(div, sessions) {
     div.innerHTML = "";
-    for (var i in sessions) {
+    for (let i in sessions) {
         let session = sessions[i];
 
         const weekday = [" Po", " Út", " St", " Čt", " Pá", " So", " Ne"];

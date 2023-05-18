@@ -1,12 +1,10 @@
 <?php
 
-require_once "../Session.php";
-
 class OnetimeSession extends Session
 {
-    private $day;
-    private $trainer;
-    private $creator;
+    private string $day;
+    private string $trainer;
+    private string $creator;
 
     public function __construct($id, $day, $start, $end, $trainer, $max_capacity, $attendants, $creator)
     {
@@ -16,9 +14,10 @@ class OnetimeSession extends Session
         $this->creator = $creator;
     }
 
-    public static function load_session($json): OnetimeSession
+    public static function load_session(array $json): OnetimeSession
     {
         $attendants = [];
+
         foreach ($json["attendants"] as $name) {
             $attendants[] = $name;
         }

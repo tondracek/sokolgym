@@ -32,9 +32,10 @@ abstract class Session implements JsonSerializable
         return $sessions;
     }
 
+    public abstract function is_overlapping(OnetimeSession $session): bool;
+
     public function is_full(): bool
     {
-        echo $this->max_capacity > count($this->attendants);
         return $this->max_capacity <= count($this->attendants);
     }
 

@@ -1,5 +1,6 @@
 <?php
 require_once "../Session.php";
+require_once "OnetimeSession.php";
 
 $filename = "sessions.json";
 $sessions = OnetimeSession::load_onetime_sessions_array($filename);

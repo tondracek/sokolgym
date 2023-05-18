@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
@@ -39,8 +35,8 @@ foreach ($sessions as $session) {
         $_SESSION["day"] = $session->getDay();
         $_SESSION["start"] = $session->getStart();
         $_SESSION["end"] = $session->getEnd();
+        break;
     }
-    break;
 }
 
 $address = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../..";
@@ -132,7 +128,6 @@ function onetime_body($address): string
       <body>
         <div style='text-align: center;'>
           <h1>Prosím, potvrďte své přihlášení</h1>
-          <p>$address</p>
           <a href='http://$address/reservation_site/storage/onetime_sessions/join_session.php?id={$_SESSION['id']}&name={$_POST['name']}'>Potvrdit kliknutím</a>
           <h1>Zvolili jste termín</h1>
           <p>{$_SESSION['day']}</p>

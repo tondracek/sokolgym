@@ -1,9 +1,6 @@
 <?php
+require_once "../Session.php";
 require_once "OnetimeSession.php";
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 $sessions = OnetimeSession::load_onetime_sessions_array("sessions.json");
 

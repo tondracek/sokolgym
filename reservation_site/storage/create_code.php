@@ -1,5 +1,4 @@
 <?php
-// 8fzT4Tx3&$&b
 
 $codes = json_decode(file_get_contents("registration_codes.json", true));
 

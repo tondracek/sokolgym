@@ -1,5 +1,7 @@
 <?php
+require_once "../Session.php";
 require_once "RegularSessions.php";
+
 $sessions = RegularSessions::load_regular_sessions_array("regular_sessions.json");
 
 foreach ($sessions as $session) {

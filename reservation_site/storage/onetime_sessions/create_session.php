@@ -1,25 +1,46 @@
 <?php
+require_once "../Session.php";
+require_once "OnetimeSession.php";
+require_once "../regular_sessions/RegularSessions.php";
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+use JetBrains\PhpStorm\NoReturn;
 
 test_inputs();
 
-$sessions = OnetimeSession::load_onetime_sessions_array("reservation_site/storage/onetime_sessions/sessions.json");
+$sessions = OnetimeSession::load_onetime_sessions_array("sessions.json");
 
-$new_session = OnetimeSession::load_session($_POST);
+$id = 0;
 
-is_overlapping_with_existing($new_session, $sessions);
+foreach ($sessions as $session) {
+    assert($session instanceof OnetimeSession);
+    if ($session->getID() > $id) {
+        $id = $session->getID();
+    }
+}
 
-$attendants[] = $_POST["trainer"];
+$new_session = new OnetimeSession(
+    $id + 1,
+    $_POST["day"],
+    $_POST["start"],
+    $_POST["end"],
+    $_POST["trainer"],
+    $_POST["max_capacity"],
+    [],
+    $_POST["email"]
+);
+
+check_overlapping_with_existing($new_session, $sessions);
+$regular_sessions = RegularSessions::load_regular_sessions_array("../regular_sessions/regular_sessions.json");
+check_overlapping_with_existing($new_session, $regular_sessions);
+
+$new_session->add_attendant($_POST["trainer"]);
 for ($i = 0; $i < $_POST["reserved_capacity"]; $i++) {
     $new_session->add_attendant("reserved");
 }
 
 $sessions[] = $new_session;
 
-file_put_contents("../storage/sessions.json", json_encode($sessions));
+file_put_contents("sessions.json", json_encode($sessions));
 
 if (headers_sent()) {
     die('<script>window.location.href = "../../index.php";</script>');
@@ -42,22 +63,19 @@ function check_user($your_email, $your_pass): bool
     return false;
 }
 
-function is_overlapping_with_existing(Session $new_session, array $sessions): void
+function check_overlapping_with_existing(OnetimeSession $new_session, array $sessions): void
 {
     foreach ($sessions as $session) {
-        if ($new_session->is_overlapping($session)) {
+        assert($session instanceof Session);
+        if ($session->is_overlapping($new_session)) {
             error_msg("Rezervace se překrývá s jinou rezervací");
         }
-    }
-
-    //check if it overlaps with basic reservation
-    if ($_POST["start"] < "20:00" && $_POST["end"] > "18:00") {
-        error_msg("Rezervace se překrývá s pravidelnou rezervací");
     }
 }
 
 function test_inputs(): void
 {
+
     if ($_POST["day"] == "") {
         error_msg("Den není vyplněn");
     }
@@ -66,7 +84,10 @@ function test_inputs(): void
         error_msg("Vyplňte platný čas");
     }
 
-    if ($_POST["end"] - $_POST["start"] > 2 || $_POST["end"] < $_POST["start"]) {
+    $start_time = strtotime($_POST["start"]);
+    $end_time = strtotime($_POST["end"]);
+
+    if ($end_time - $start_time > strtotime("02:00") || $end_time < $start_time) {
         error_msg("Rezervace může trvat maximálně 2 hodiny");
     }
 
@@ -87,7 +108,7 @@ function test_inputs(): void
     }
 }
 
-function error_msg($msg): void
+#[NoReturn] function error_msg($msg): void
 {
     die("
         <script type='text/javascript'>alert('$msg'); 

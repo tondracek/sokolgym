@@ -1,1 +1,1 @@
-[{"id":0,"days":[0,1,2,3,4,5,6],"start":"16:00","end":"18:00","max_capacity":4,"attendants":[],"last_updated":"23-05-17"},{"id":1,"days":[0,1,2,3,4,5,6],"start":"18:00","end":"20:00","max_capacity":4,"attendants":[],"last_updated":"23-05-17"}]
+[{"id":0,"days":[0,1,2,3,4,5,6],"start":"16:00","end":"18:00","max_capacity":4,"attendants":["Tom\u00e1\u0161 Ondr\u00e1\u010dek","Tom\u00e1\u0161"],"last_updated":"23-05-18"},{"id":1,"days":[0,1,2,3,4,5,6],"start":"18:00","end":"20:00","max_capacity":4,"attendants":["Tom\u00e1\u0161 Ondr\u00e1\u010dek"],"last_updated":"23-05-18"}]
