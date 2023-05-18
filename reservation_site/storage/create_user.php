@@ -2,7 +2,7 @@
 if (!verify_code()) {
   $msg = "Špatný kód";
   die("<script type='text/javascript'>alert('$msg');
-  window.location = '../index.php'</script>");
+  window.location = '../index.html'</script>");
 }
 
 $users = json_decode(file_get_contents("users.json", true));
@@ -14,20 +14,20 @@ $user->password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 if ($user->email == "") {
   $msg = "Vyplňte email";
   die("<script type='text/javascript'>alert('$msg');
-    window.location = '../index.php'</script>");
+    window.location = '../index.html'</script>");
 }
 
 if ($_POST["password"] != $_POST["password_again"]) {
   $msg = "Hesla se neshodují";
   die("<script type='text/javascript'>alert('$msg');
-    window.location = '../index.php'</script>");
+    window.location = '../index.html'</script>");
 }
 
 foreach ($users as $user_in_db) {
   if ($user_in_db->email == $user->email){
     $msg = "Email již je v databázi";
     die("<script type='text/javascript'>alert('$msg');
-      window.location = '../index.php'</script>");
+      window.location = '../index.html'</script>");
   }
 }
 
@@ -35,7 +35,7 @@ array_push($users, $user);
 file_put_contents("users.json", json_encode($users));
 $msg = "Účet vytvořen";
 die("<script type='text/javascript'>alert('$msg');
-window.location = '../index.php'</script>");
+window.location = '../index.html'</script>");
 
 function verify_code() {
   $codes = json_decode(file_get_contents("registration_codes.json", true));

@@ -11,13 +11,13 @@ require_once "../reservation_site/storage/regular_sessions/RegularSessions.php";
 if ($_POST["name"] == "") {
     $msg = "Vyplňte jméno";
     die("<script type='text/javascript'>alert('$msg');
-    window.location = '../reservation_site/index.php'</script>");
+    window.location = '../reservation_site/index.html'</script>");
 }
 
 if ($_POST["email"] == "") {
     $msg = "Vyplňte email";
     die("<script type='text/javascript'>alert('$msg');
-    window.location = '../reservation_site/index.php'</script>");
+    window.location = '../reservation_site/index.html'</script>");
 }
 
 session_start();
@@ -68,7 +68,7 @@ if (!$email->Send()) {
 }
 
 die("<script type='text/javascript'>alert('$msg');
-window.location = '../reservation_site/index.php'</script>");
+window.location = '../reservation_site/index.html'</script>");
 
 function regular_body($address): string
 {

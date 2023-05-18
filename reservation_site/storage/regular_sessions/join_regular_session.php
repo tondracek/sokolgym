@@ -10,7 +10,7 @@ foreach ($sessions as $session) {
         if ($session->is_full()) {
             $msg = "Rezervace je již zaplněna";
             die("<script type='text/javascript'>alert('$msg');
-                window.location = '../../index.php'</script>");
+                window.location = '../../index.html'</script>");
         } else {
             $session->add_attendant($_GET["name"]);
         }
@@ -20,8 +20,8 @@ foreach ($sessions as $session) {
 file_put_contents("regular_sessions.json", json_encode($sessions));
 
 if (headers_sent()) {
-    die('<script>window.location.href = "../../index.php";</script>');
+    die('<script>window.location.href = "../../index.html";</script>');
 } else {
-    header("Location: ../../index.php");
+    header("Location: ../../index.html");
     die();
 }
