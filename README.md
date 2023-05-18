@@ -1,5 +1,5 @@
 # sokolgym
-Projekt rezervačního systému pro menší posilovnu.
+Projekt rezervačního systému pro posilovnu.
 
 # Princip kódu
 Uživatel vybere volný termín, ve který chce posilovnu navštívit. Stisknutím tlačítka "Zarezervovat" nahraje do session uložiště identifikátor daného termínu.
@@ -10,4 +10,4 @@ Kliknutím na odkaz v emailu se odešle požadavek na zapsání jména k danému
 Databáze - projekt aktuálně funguje pouze s JSON databází, bude nahrazena SQL serverem.
 
 ...
-[Ukázka bez funkčního php](https://tondracek.github.io/sokolgym)
+[Statická ukázka - nefunkční php skripty](https://tondracek.github.io/sokolgym)
